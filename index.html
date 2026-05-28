@@ -89,6 +89,17 @@ section .section-sub { text-align:center; color:var(--dim); font-size:14px; font
 .tier-price .strike { text-decoration:line-through; opacity:0.4; font-size:0.7em; margin-right:8px; }
 .tier-price .free { color:var(--warm); }
 
+/* PAYMENT */
+.pay-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px; max-width:780px; margin:0 auto 24px; }
+.pay-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px 22px; text-align:center; transition:all 0.25s; }
+.pay-card:hover { border-color:var(--beam); transform:translateY(-3px); box-shadow:0 12px 30px rgba(76,243,255,0.1); }
+.pay-card .pay-method { font-family:'DM Mono',monospace; font-size:11px; color:var(--beam); letter-spacing:0.2em; margin-bottom:10px; text-transform:uppercase; }
+.pay-card .pay-email { font-family:'DM Mono',monospace; font-size:15px; color:var(--bright); margin-bottom:16px; word-break:break-all; padding:10px 12px; background:var(--s2); border-radius:6px; border:1px solid var(--border); }
+.pay-card .pay-actions { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+.pay-card .pay-actions .btn { padding:8px 14px; font-size:12px; }
+.pay-trust { max-width:680px; margin:0 auto; text-align:center; color:var(--ink); font-size:13px; line-height:1.6; padding:14px 20px; background:rgba(212,168,83,0.05); border:1px solid rgba(212,168,83,0.2); border-radius:8px; }
+.pay-trust strong { color:var(--warm); }
+
 /* FORM */
 .form-wrap { max-width:580px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:34px 30px; }
 .form-row { display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
@@ -243,8 +254,8 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
       <div class="tier">
         <div class="launch-pill">first 3 DMs · FREE</div>
         <div class="tier-name">SINGLE TRACK</div>
-        <div class="tier-price"><span class="strike">$99</span> <span class="free">free</span><span class="unit">/ for the first 3</span></div>
-        <div class="tier-tagline">LinkedIn launch · DM me on LinkedIn · normally $99</div>
+        <div class="tier-price"><span class="strike">$99</span> <span class="free">free</span><span class="unit">/ first 3 DMs</span></div>
+        <div class="tier-tagline">DM me on LinkedIn · or pay direct after delivery</div>
         <ul>
           <li>Delivered in 24 hours</li>
           <li>Unlimited revisions until you love it</li>
@@ -288,6 +299,31 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
       </div>
 
     </div>
+  </section>
+
+  <!-- PAYMENT -->
+  <section id="pay">
+    <h2 class="section-title">How to pay</h2>
+    <div class="section-sub">direct to Thomas · no platform middleman · pay after delivery</div>
+    <div class="pay-grid">
+      <div class="pay-card">
+        <div class="pay-method">PayPal</div>
+        <div class="pay-email" id="ppEmail">frumkin89@gmail.com</div>
+        <div class="pay-actions">
+          <button class="btn sec" onclick="copyPay('frumkin89@gmail.com', this)">copy email</button>
+          <a class="btn" href="https://www.paypal.com/myaccount/transfer/homepage?recipientId=frumkin89%40gmail.com" target="_blank" rel="noopener">Send via PayPal ↗</a>
+        </div>
+      </div>
+      <div class="pay-card">
+        <div class="pay-method">Venmo</div>
+        <div class="pay-email" id="vmEmail">frumkin89@gmail.com</div>
+        <div class="pay-actions">
+          <button class="btn sec" onclick="copyPay('frumkin89@gmail.com', this)">copy email</button>
+          <a class="btn" href="https://venmo.com/" target="_blank" rel="noopener">Send via Venmo ↗</a>
+        </div>
+      </div>
+    </div>
+    <p class="pay-trust">◊ <strong>Pay after delivery.</strong> Don't send anything until the visualisation is in your hands and you love it. If it doesn't work, no money changes hands. First 3 launch DMs get theirs free anyway · zero strings.</p>
   </section>
 
   <!-- ORDER FORM -->
@@ -446,6 +482,23 @@ document.querySelectorAll('[data-tier]').forEach(function(el){
     }, 100);
   });
 });
+
+// Copy payment email to clipboard
+function copyPay(email, btn) {
+  navigator.clipboard.writeText(email).then(function(){
+    var orig = btn.textContent;
+    btn.textContent = '✓ copied';
+    btn.style.background = '#4ecba0';
+    btn.style.color = '#000';
+    setTimeout(function(){
+      btn.textContent = orig;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 1800);
+  }).catch(function(){
+    prompt('Copy this:', email);
+  });
+}
 
 // Smooth scroll for anchors
 document.querySelectorAll('a[href^="#"]').forEach(function(a){

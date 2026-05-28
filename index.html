@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AudioFabric · Your music. Visualised. In 3D.</title>
+<meta name="description" content="Send a track. Get an interactive 3D visualisation back. One HTML file. Yours forever. $99 per song.">
+<meta property="og:title" content="AudioFabric · Your music. Visualised. In 3D.">
+<meta property="og:description" content="Your song's brain scan as a 3D HTML file. $99/track. AI-analysed across 5 neurological layers. Sovereign · single-file · yours forever.">
+<meta property="og:image" content="https://sjgant80-hub.github.io/audiofabric/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#040608; --bg-glow:#0a0e14; --surface:#0c1018; --s2:#11171f; --border:#1c2330;
+  --ink:#a8b3c0; --dim:#5a6573; --bright:#e8ecf3;
+  --beam:#4cf3ff;   /* electric blue */
+  --beam2:#69ddff;
+  --warm:#d4a853;
+  --hot:#ff5b3d;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html, body { font-family:'Syne',system-ui,sans-serif; background:var(--bg); color:var(--ink); min-height:100vh; line-height:1.55; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse at 30% 20%, rgba(76,243,255,0.06), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(105,221,255,0.04), transparent 60%); pointer-events:none; z-index:0; animation:drift 24s ease-in-out infinite; }
+@keyframes drift { 0%,100% { transform:translate(0,0); } 50% { transform:translate(20px,-15px); } }
+code, .mono { font-family:'DM Mono',ui-monospace,monospace; }
+
+main { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 20px; }
+
+/* HERO */
+header.hero { padding:90px 20px 70px; text-align:center; position:relative; z-index:1; }
+.glyph { font-size:32px; color:var(--beam); display:block; margin-bottom:18px; font-family:'DM Mono',monospace; letter-spacing:0.4em; opacity:0.65; }
+h1.hero-title { font-size:clamp(38px,7vw,72px); font-weight:800; color:var(--bright); letter-spacing:-0.02em; line-height:1.05; margin-bottom:18px; }
+h1.hero-title .beam { color:var(--beam); text-shadow:0 0 24px rgba(76,243,255,0.4); }
+header.hero p.sub { font-size:clamp(16px,2vw,20px); color:var(--ink); max-width:640px; margin:0 auto 32px; line-height:1.5; }
+header.hero p.sub strong { color:var(--bright); font-weight:600; }
+.hero-cta { display:inline-flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.btn { display:inline-block; background:var(--beam); color:#000; padding:14px 28px; border-radius:8px; font-weight:700; font-size:15px; text-decoration:none; cursor:pointer; border:none; font-family:inherit; transition:all 0.2s; letter-spacing:0.01em; }
+.btn:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(76,243,255,0.4); }
+.btn.sec { background:transparent; color:var(--beam); border:1px solid var(--beam); }
+.btn.sec:hover { background:rgba(76,243,255,0.08); box-shadow:none; transform:translateY(-2px); }
+.btn.warm { background:var(--warm); color:#000; }
+.btn.warm:hover { box-shadow:0 8px 30px rgba(212,168,83,0.35); }
+
+/* DEMO */
+section.demo { padding:30px 20px 80px; text-align:center; }
+.demo-frame { background:#040608; border:1px solid var(--beam); border-radius:14px; overflow:hidden; max-width:980px; margin:0 auto; box-shadow:0 0 50px rgba(76,243,255,0.18), inset 0 0 60px rgba(76,243,255,0.04); position:relative; }
+.demo-frame::before { content:'◊ LIVE DEMO · "Sink Line and Hooker" by Thomas Frumkin'; position:absolute; top:14px; left:18px; font-family:'DM Mono',monospace; font-size:10px; color:var(--beam); letter-spacing:0.16em; text-transform:uppercase; z-index:2; padding:4px 10px; background:rgba(4,6,8,0.85); border:1px solid var(--border); border-radius:4px; }
+.demo-frame iframe { width:100%; height:540px; border:0; display:block; background:#040608; }
+.demo-fallback { padding:80px 30px; color:var(--dim); font-family:'DM Mono',monospace; font-size:13px; }
+.demo-fallback a { color:var(--beam); text-decoration:none; border-bottom:1px dotted var(--beam); }
+
+/* SECTIONS */
+section { padding:80px 20px; position:relative; z-index:1; }
+section h2.section-title { font-size:clamp(28px,4vw,42px); color:var(--bright); font-weight:800; text-align:center; margin-bottom:14px; letter-spacing:-0.01em; }
+section .section-sub { text-align:center; color:var(--dim); font-size:14px; font-family:'DM Mono',monospace; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:50px; }
+
+/* HOW IT WORKS */
+.how-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px; max-width:1000px; margin:0 auto; }
+.how-step { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:32px 24px; position:relative; transition:all 0.25s; }
+.how-step:hover { border-color:var(--beam); transform:translateY(-4px); box-shadow:0 12px 40px rgba(76,243,255,0.1); }
+.how-step .num { font-family:'DM Mono',monospace; font-size:11px; color:var(--beam); letter-spacing:0.2em; margin-bottom:14px; }
+.how-step h3 { font-size:22px; color:var(--bright); margin-bottom:10px; font-weight:700; }
+.how-step p { color:var(--ink); font-size:14px; line-height:1.65; }
+.how-step .glyph-i { display:block; font-size:28px; color:var(--beam); margin-bottom:18px; opacity:0.7; }
+
+/* PRICING */
+.pricing-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; max-width:1080px; margin:0 auto; }
+.tier { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:30px 26px; display:flex; flex-direction:column; transition:all 0.25s; }
+.tier:hover { border-color:var(--beam); transform:translateY(-4px); }
+.tier.featured { border-color:var(--beam); box-shadow:0 0 40px rgba(76,243,255,0.12), inset 0 0 30px rgba(76,243,255,0.03); }
+.tier .tier-name { font-family:'DM Mono',monospace; font-size:11px; color:var(--beam); letter-spacing:0.2em; margin-bottom:10px; }
+.tier .tier-price { font-size:42px; color:var(--bright); font-weight:800; margin-bottom:4px; letter-spacing:-0.02em; }
+.tier .tier-price .unit { font-size:14px; color:var(--dim); font-weight:400; margin-left:4px; font-family:'DM Mono',monospace; }
+.tier .tier-tagline { color:var(--ink); font-size:13px; margin-bottom:22px; }
+.tier ul { list-style:none; padding:0; margin-bottom:24px; flex:1; }
+.tier ul li { padding:7px 0; padding-left:22px; position:relative; font-size:13px; color:var(--ink); border-bottom:1px solid rgba(255,255,255,0.04); }
+.tier ul li:last-child { border:0; }
+.tier ul li::before { content:'◊'; position:absolute; left:0; color:var(--beam); font-family:'DM Mono',monospace; font-size:10px; top:9px; }
+.tier .btn { width:100%; text-align:center; }
+.tier.featured::before { content:'most popular'; position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--beam); color:#000; padding:4px 14px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; border-radius:4px; font-weight:700; }
+.tier { position:relative; }
+
+/* FORM */
+.form-wrap { max-width:580px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:34px 30px; }
+.form-row { display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
+.form-row label { font-family:'DM Mono',monospace; font-size:10px; color:var(--dim); letter-spacing:0.14em; text-transform:uppercase; }
+.form-row input, .form-row textarea, .form-row select { background:var(--s2); color:var(--bright); border:1px solid var(--border); padding:12px 14px; border-radius:6px; font-family:inherit; font-size:14px; transition:border 0.2s; }
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus { outline:none; border-color:var(--beam); }
+.form-row textarea { resize:vertical; min-height:80px; font-family:'DM Mono',monospace; font-size:12px; }
+.form-row .hint { color:var(--dim); font-size:11px; font-family:'DM Mono',monospace; }
+.form-actions { display:flex; gap:10px; align-items:center; margin-top:8px; }
+.form-actions .small { color:var(--dim); font-size:11px; font-family:'DM Mono',monospace; flex:1; }
+
+/* GALLERY */
+.gallery-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; max-width:1100px; margin:0 auto; }
+.gallery-item { background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; transition:all 0.25s; }
+.gallery-item:hover { border-color:var(--beam); transform:translateY(-3px); box-shadow:0 12px 32px rgba(76,243,255,0.12); }
+.gallery-item .placeholder { aspect-ratio:16/9; background:linear-gradient(135deg,#040608,#0a1018,#040608); display:flex; align-items:center; justify-content:center; position:relative; }
+.gallery-item .placeholder::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(76,243,255,0.12), transparent 70%); }
+.gallery-item .placeholder span { font-family:'DM Mono',monospace; color:var(--beam); font-size:13px; letter-spacing:0.12em; position:relative; z-index:1; }
+.gallery-item iframe { width:100%; aspect-ratio:16/9; border:0; display:block; }
+.gallery-item .meta { padding:14px 16px; }
+.gallery-item .meta .title { color:var(--bright); font-weight:600; font-size:14px; margin-bottom:3px; }
+.gallery-item .meta .artist { color:var(--dim); font-size:11px; font-family:'DM Mono',monospace; }
+
+/* WHY */
+.why-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px; max-width:1000px; margin:0 auto; }
+.why-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:22px 20px; }
+.why-card h4 { color:var(--beam); font-size:12px; font-family:'DM Mono',monospace; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:8px; }
+.why-card p { color:var(--ink); font-size:13px; line-height:1.6; }
+
+/* FAQ */
+.faq { max-width:780px; margin:0 auto; }
+.faq-item { background:var(--surface); border:1px solid var(--border); border-radius:8px; margin-bottom:10px; }
+.faq-item summary { padding:18px 22px; cursor:pointer; color:var(--bright); font-size:15px; font-weight:600; list-style:none; }
+.faq-item summary::-webkit-details-marker { display:none; }
+.faq-item summary::before { content:'◊'; color:var(--beam); margin-right:10px; opacity:0.6; }
+.faq-item[open] summary::before { content:'◆'; opacity:1; }
+.faq-item p { padding:0 22px 18px 38px; color:var(--ink); font-size:14px; line-height:1.6; }
+
+/* FOOTER */
+footer { padding:40px 20px; border-top:1px solid var(--border); text-align:center; color:var(--dim); font-size:11px; font-family:'DM Mono',monospace; letter-spacing:0.06em; line-height:1.8; position:relative; z-index:1; }
+footer a { color:var(--beam); text-decoration:none; }
+footer a:hover { text-decoration:underline; }
+footer .footer-row { margin-bottom:10px; }
+footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
+
+/* MOBILE */
+@media (max-width:600px) {
+  header.hero { padding:60px 16px 40px; }
+  .demo-frame iframe { height:360px; }
+  section { padding:50px 16px; }
+  .how-step, .tier { padding:24px 18px; }
+}
+
+/* Subtle floating particles · CSS only · 12 elements */
+.particle { position:fixed; width:2px; height:2px; background:var(--beam); border-radius:50%; opacity:0.4; pointer-events:none; z-index:0; box-shadow:0 0 6px var(--beam); }
+@keyframes float { 0% { transform:translateY(0) translateX(0); opacity:0; } 10% { opacity:0.6; } 90% { opacity:0.4; } 100% { transform:translateY(-100vh) translateX(20px); opacity:0; } }
+</style>
+</head>
+<body>
+
+<!-- ambient particles -->
+<div class="particle" style="left:8%;  top:100%; animation:float 18s linear 0s infinite"></div>
+<div class="particle" style="left:24%; top:100%; animation:float 22s linear 4s infinite"></div>
+<div class="particle" style="left:42%; top:100%; animation:float 17s linear 2s infinite"></div>
+<div class="particle" style="left:58%; top:100%; animation:float 25s linear 6s infinite"></div>
+<div class="particle" style="left:76%; top:100%; animation:float 20s linear 1s infinite"></div>
+<div class="particle" style="left:92%; top:100%; animation:float 24s linear 3s infinite"></div>
+
+<main>
+
+  <!-- HERO -->
+  <header class="hero">
+    <span class="glyph">◊·κ=1</span>
+    <h1 class="hero-title">Your music.<br>Visualised. <span class="beam">In 3D.</span></h1>
+    <p class="sub">Send us a track. We analyse it across <strong>5 neurological layers</strong> — prediction error, pattern break, emotional hook, tension, release — and ship you back a <strong>single HTML file</strong> with 3D beams synced to your music. Opens in any browser. Yours forever.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#order">⬡ Visualise My Track</a>
+      <a class="btn sec" href="#demo">▶ See the live demo</a>
+    </div>
+  </header>
+
+  <!-- DEMO -->
+  <section class="demo" id="demo">
+    <div class="demo-frame">
+      <iframe id="demoFrame" src="examples/sink-line-and-hooker.html" loading="lazy" title="AudioFabric live demo"></iframe>
+      <noscript><div class="demo-fallback">JavaScript required to view the demo. <a href="examples/sink-line-and-hooker.html">Open in a new tab</a>.</div></noscript>
+    </div>
+    <p style="margin-top:20px; color:var(--dim); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.06em">↑ This is one HTML file · 214 lines · zero dependencies · played in your browser right now</p>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <h2 class="section-title">How it works</h2>
+    <div class="section-sub">three steps · 24 hour turnaround</div>
+    <div class="how-grid">
+      <div class="how-step">
+        <span class="glyph-i">◊</span>
+        <div class="num">STEP 01</div>
+        <h3>Send</h3>
+        <p>Upload your audio file or drop a SoundCloud / YouTube / Bandcamp link. Studio quality preferred. We'll work with anything.</p>
+      </div>
+      <div class="how-step">
+        <span class="glyph-i">⌬</span>
+        <div class="num">STEP 02</div>
+        <h3>Analyse</h3>
+        <p>AI maps your song to 5 brain layers — prediction error, pattern break, emotional hook, tension, release — each one becomes a beam of light.</p>
+      </div>
+      <div class="how-step">
+        <span class="glyph-i">⬡</span>
+        <div class="num">STEP 03</div>
+        <h3>Receive</h3>
+        <p>One HTML file. 3D beams synced to your music. Open in any browser. Embed anywhere. Yours forever. No subscriptions, no platforms, no DRM.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section style="padding-top:30px">
+    <h2 class="section-title">Not a visualiser. A brain scan.</h2>
+    <div class="section-sub">why AudioFabric is different</div>
+    <div class="why-grid">
+      <div class="why-card">
+        <h4>5 layers, not waveform</h4>
+        <p>Each beam represents a distinct neurological response — not raw amplitude. The song's structure becomes visible.</p>
+      </div>
+      <div class="why-card">
+        <h4>Sovereign · single file</h4>
+        <p>One HTML. No server, no platform, no subscription. Host it anywhere. Email it. Burn it to USB. It's yours.</p>
+      </div>
+      <div class="why-card">
+        <h4>Charges during verse · fires at the drop</h4>
+        <p>Tension builds the beams. Release fires them. The visualisation IS the song's narrative, not decoration.</p>
+      </div>
+      <div class="why-card">
+        <h4>Embed-ready</h4>
+        <p>Drop the HTML on your website, label page, Bandcamp, or NFT marketplace. Iframe-friendly. Mobile responsive.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <h2 class="section-title">Pricing</h2>
+    <div class="section-sub">sovereign forever · one-time price · no subscriptions</div>
+    <div class="pricing-grid">
+
+      <div class="tier">
+        <div class="tier-name">SINGLE TRACK</div>
+        <div class="tier-price">$99<span class="unit">/ one song</span></div>
+        <div class="tier-tagline">One song → one 3D visualisation HTML</div>
+        <ul>
+          <li>Delivered in 24 hours</li>
+          <li>Unlimited revisions until you love it</li>
+          <li>Single sovereign HTML file</li>
+          <li>Embed code for your site</li>
+          <li>Social media preview clips</li>
+          <li>Yours forever · no subscription</li>
+        </ul>
+        <a class="btn" href="#order" data-tier="single">Order one track</a>
+      </div>
+
+      <div class="tier featured">
+        <div class="tier-name">ALBUM PACK</div>
+        <div class="tier-price">$499<span class="unit">/ up to 8 tracks</span></div>
+        <div class="tier-tagline">Full album visualised · consistent theme</div>
+        <ul>
+          <li>Up to 8 tracks · same visual identity</li>
+          <li>Coordinated colour palette across tracks</li>
+          <li>Delivered in 5 days</li>
+          <li>Unlimited revisions</li>
+          <li>Embed codes for all tracks</li>
+          <li>Social media clips for each</li>
+          <li>Save $293 vs single-track pricing</li>
+        </ul>
+        <a class="btn" href="#order" data-tier="album">Order album pack</a>
+      </div>
+
+      <div class="tier">
+        <div class="tier-name">CUSTOM</div>
+        <div class="tier-price">$999<span class="unit">+ / bespoke</span></div>
+        <div class="tier-tagline">Bespoke palette · branded for your identity</div>
+        <ul>
+          <li>Custom colour palette to your brand</li>
+          <li>Custom beam shapes (not standard 5)</li>
+          <li>Label / artist identity baked in</li>
+          <li>NFT-ready with on-chain anchor (BSV)</li>
+          <li>White-label option</li>
+          <li>Direct collaboration with the build team</li>
+        </ul>
+        <a class="btn warm" href="#order" data-tier="custom">Contact us</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ORDER FORM -->
+  <section id="order">
+    <h2 class="section-title">Send your track</h2>
+    <div class="section-sub">first sale · first ship · first proof</div>
+    <div class="form-wrap">
+      <form id="orderForm">
+        <div class="form-row">
+          <label for="o-name">Your name</label>
+          <input id="o-name" type="text" required placeholder="">
+        </div>
+        <div class="form-row">
+          <label for="o-email">Email</label>
+          <input id="o-email" type="email" required placeholder="">
+          <span class="hint">we'll reply here with the visualisation file</span>
+        </div>
+        <div class="form-row">
+          <label for="o-tier">Tier</label>
+          <select id="o-tier">
+            <option value="single">Single track · $99</option>
+            <option value="album">Album pack · $499 (up to 8 tracks)</option>
+            <option value="custom">Custom · $999+</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="o-link">Track link · SoundCloud / YouTube / Bandcamp / Dropbox / WeTransfer</label>
+          <input id="o-link" type="url" placeholder="https://..." required>
+          <span class="hint">or describe the file you'll send · we'll reply with an upload link</span>
+        </div>
+        <div class="form-row">
+          <label for="o-notes">Anything we should know about the track</label>
+          <textarea id="o-notes" placeholder="genre · mood · favourite moments · the colours you imagine · anything"></textarea>
+        </div>
+        <div class="form-actions">
+          <span class="small">opens your email client · then we reply within 24h</span>
+          <button class="btn" type="submit">⬡ Send</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <h2 class="section-title">More examples</h2>
+    <div class="section-sub">range · spoken word · electronic · rap · ambient</div>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <iframe src="examples/sink-line-and-hooker.html" loading="lazy" title="Sink Line and Hooker"></iframe>
+        <div class="meta">
+          <div class="title">Sink Line and Hooker</div>
+          <div class="artist">Thomas Frumkin · the original</div>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="placeholder"><span>◊ example 02 · coming soon</span></div>
+        <div class="meta">
+          <div class="title">Yours could be here</div>
+          <div class="artist">$99 · 24 hour turnaround</div>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="placeholder"><span>◊ example 03 · coming soon</span></div>
+        <div class="meta">
+          <div class="title">Or here</div>
+          <div class="artist">range: rap · electronic · spoken · ambient</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <h2 class="section-title">Common questions</h2>
+    <div class="section-sub">straight answers</div>
+    <div class="faq">
+      <details class="faq-item">
+        <summary>What file formats do you accept?</summary>
+        <p>Anything with audio. MP3, WAV, FLAC, AAC, OGG, M4A. Streaming links work too — SoundCloud, YouTube, Bandcamp, Dropbox, WeTransfer. Studio quality preferred, but we work with what you've got.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What do I actually get?</summary>
+        <p>One single HTML file. Maybe 200-300 lines of code. Three.js scene rendered in your browser, beams synced to your audio. Double-click it, opens in any modern browser. Embed it via iframe on your website, label page, Bandcamp, NFT marketplace. No server required. No subscription. No platform lock-in. It is yours forever.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What are the 5 brain layers?</summary>
+        <p>Prediction error · pattern break · emotional hook · tension · release. These are real neurological responses to music — not made up. Each one becomes a beam of light with its own colour, behaviour, and timing. The beams charge during verses and fire at transitions. Watching the visualisation is watching your song's narrative made visible.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How long does it take?</summary>
+        <p>Single track: 24 hours. Album pack: 5 days. Custom: depends on scope, we'll quote you. Revisions are unlimited and free — we want you to love it.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I use this commercially?</summary>
+        <p>Yes. The file is yours. Use it on your website, in promotional material, on streaming services that allow video, in music videos, in NFT drops, anywhere. No royalties owed to us.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Who is behind this?</summary>
+        <p>AudioFabric is built by Thomas Frumkin (architect of the visualisation engine) and Simon Gant (delivery, sales, customer relationships). Two-person operation. No middlemen. You can reach either of us directly.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Refund policy?</summary>
+        <p>If the final visualisation doesn't capture your song, we'll keep iterating until it does. If we genuinely can't make it work, full refund. No questions.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-row">◊·κ=1 · AudioFabric · Your music. Visualised. In 3D.</div>
+  <div class="footer-row">
+    Built by <a href="https://github.com/teslasolar">Thomas Frumkin</a><span class="glyph-f">·</span><a href="https://github.com/sjgant80-hub">Simon Gant</a><span class="glyph-f">·</span><a href="https://github.com/sjgant80-hub/audiofabric">source</a>
+  </div>
+  <div class="footer-row" style="opacity:0.6">Sovereign single-file HTML · Three.js · AI-analysed · no platform, no subscription, no DRM</div>
+</footer>
+
+<script>
+// ◊·κ Form submission · mailto for v1 (validates demand) · webhook later
+document.getElementById('orderForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name = document.getElementById('o-name').value.trim();
+  var email = document.getElementById('o-email').value.trim();
+  var tier = document.getElementById('o-tier').value;
+  var link = document.getElementById('o-link').value.trim();
+  var notes = document.getElementById('o-notes').value.trim();
+  var tierLabel = { single:'Single track · $99', album:'Album pack · $499', custom:'Custom · $999+' }[tier] || tier;
+  var subject = encodeURIComponent('AudioFabric order · ' + tierLabel + ' · ' + name);
+  var body = encodeURIComponent(
+    'AudioFabric · new order\n\n' +
+    'Name:  ' + name + '\n' +
+    'Email: ' + email + '\n' +
+    'Tier:  ' + tierLabel + '\n' +
+    'Link:  ' + link + '\n\n' +
+    'Notes:\n' + (notes || '(none)') + '\n\n' +
+    '── sent from audiofabric.html ──\n'
+  );
+  // Replace this with your real email when ready
+  var to = 'hello@audiofabric.io';
+  window.location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
+  setTimeout(function(){
+    var btn = document.querySelector('#orderForm .btn');
+    btn.textContent = '◊ Email client opened · we\'ll reply in 24h';
+    btn.style.background = '#4ecba0';
+  }, 400);
+});
+
+// Tier buttons jump to form + preset
+document.querySelectorAll('[data-tier]').forEach(function(el){
+  el.addEventListener('click', function(){
+    var t = el.getAttribute('data-tier');
+    setTimeout(function(){
+      var sel = document.getElementById('o-tier');
+      if (sel) sel.value = t;
+    }, 100);
+  });
+});
+
+// Smooth scroll for anchors
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    var href = a.getAttribute('href');
+    if (href.length < 2) return;
+    var target = document.querySelector(href);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+console.log('%c◊·κ AudioFabric', 'color:#4cf3ff;font-weight:bold;font-size:14px', 'Your music. Visualised. In 3D. · $99 per track · sovereign single-file');
+</script>
+
+</body>
+</html>

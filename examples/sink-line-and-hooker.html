@@ -1,0 +1,86 @@
+<!doctype html>
+<!-- ◊·κ AudioFabric · DEMO PLACEHOLDER
+     This file gets replaced with Thomas's actual 214-line AudioFabric HTML
+     for "Sink Line and Hooker" — five neural beams synced to the track.
+     For now: animated beam preview so the landing page demo is alive.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AudioFabric · Sink Line and Hooker · placeholder</title>
+<style>
+  html, body { margin:0; padding:0; background:#040608; color:#a8b3c0; height:100%; font-family:'DM Mono',ui-monospace,monospace; overflow:hidden; }
+  canvas { display:block; width:100%; height:100%; }
+  .hint { position:fixed; bottom:14px; left:14px; font-size:10px; color:#4cf3ff; opacity:0.65; letter-spacing:0.08em; z-index:2; }
+  .title { position:fixed; top:14px; left:14px; font-size:11px; color:#4cf3ff; letter-spacing:0.16em; z-index:2; }
+</style>
+</head>
+<body>
+<div class="title">◊·κ AudioFabric · placeholder · live demo coming</div>
+<canvas id="c"></canvas>
+<div class="hint">5 neural beams · prediction · pattern · hook · tension · release</div>
+
+<script>
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+function size() { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; }
+size(); addEventListener('resize', size);
+
+const BEAMS = [
+  { name:'prediction', color:'#4cf3ff', y:0.20, charge:0, phase:0, speed:0.012 },
+  { name:'pattern',    color:'#69ddff', y:0.35, charge:0, phase:1.2, speed:0.008 },
+  { name:'hook',       color:'#d4a853', y:0.50, charge:0, phase:2.4, speed:0.014 },
+  { name:'tension',    color:'#ff5b3d', y:0.65, charge:0, phase:3.6, speed:0.010 },
+  { name:'release',    color:'#4ecba0', y:0.80, charge:0, phase:4.8, speed:0.016 }
+];
+
+let t = 0;
+function draw() {
+  ctx.fillStyle = 'rgba(4,6,8,0.18)';
+  ctx.fillRect(0, 0, cv.width, cv.height);
+  const W = cv.width, H = cv.height;
+  t += 0.012;
+  // ambient stars
+  for (let i = 0; i < 40; i++) {
+    const x = (Math.sin(i * 12.9 + t * 0.3) * 0.5 + 0.5) * W;
+    const y = (Math.cos(i * 7.3 + t * 0.4) * 0.5 + 0.5) * H;
+    const a = (Math.sin(t * 2 + i) * 0.5 + 0.5) * 0.25;
+    ctx.fillStyle = 'rgba(76,243,255,' + a + ')';
+    ctx.fillRect(x, y, 1.5 * devicePixelRatio, 1.5 * devicePixelRatio);
+  }
+  // beams
+  BEAMS.forEach((b, i) => {
+    // simulated "song" — gradually rising tension with periodic releases
+    const wave = Math.sin(t + b.phase) * 0.5 + 0.5;
+    const isRelease = (Math.floor(t / 4) + i) % 3 === 0 && wave > 0.85;
+    b.charge += (isRelease ? -0.05 : b.speed);
+    if (b.charge < 0) b.charge = 0;
+    if (b.charge > 1) b.charge = 1;
+    const y = b.y * H;
+    const cx = W * 0.5;
+    const len = 0.4 * W * (0.3 + b.charge);
+    // beam glow
+    const grad = ctx.createLinearGradient(cx - len, y, cx + len, y);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(0.5, b.color);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(cx - len, y - 2 * devicePixelRatio, len * 2, 4 * devicePixelRatio);
+    // halo
+    ctx.shadowBlur = 30 * devicePixelRatio * b.charge;
+    ctx.shadowColor = b.color;
+    ctx.fillRect(cx - len, y - 2 * devicePixelRatio, len * 2, 4 * devicePixelRatio);
+    ctx.shadowBlur = 0;
+    // label
+    ctx.fillStyle = b.color;
+    ctx.font = (10 * devicePixelRatio) + "px 'DM Mono',monospace";
+    ctx.globalAlpha = 0.6;
+    ctx.fillText(b.name.toUpperCase(), 20 * devicePixelRatio, y - 8 * devicePixelRatio);
+    ctx.globalAlpha = 1;
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

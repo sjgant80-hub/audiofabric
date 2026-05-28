@@ -50,8 +50,10 @@ All tiers include embed code, social media preview clips, and the sovereign HTML
 
 ## Built by
 
-- **[Thomas Frumkin](https://github.com/teslasolar)** · architect of the AudioFabric visualisation engine
-- **[Simon Gant](https://github.com/sjgant80-hub)** · delivery, sales, customer relationships
+- **Thomas Frumkin** · architect of the AudioFabric visualisation engine
+  · [LinkedIn](https://www.linkedin.com/in/thomas-frumkin-a7116741/) · [GitHub](https://github.com/teslasolar)
+- **Simon Gant** · delivery, sales, customer relationships
+  · [LinkedIn](https://www.linkedin.com/in/simon-gant-295b56180/) · [GitHub](https://github.com/sjgant80-hub)
 - Mesh economics · two-person operation · no middlemen
 
 ## Licence

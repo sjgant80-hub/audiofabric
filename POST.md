@@ -1,20 +1,46 @@
 # LinkedIn launch post · ready to paste
 
-## Primary post
+## ◊ LAUNCH OFFER · primary post · leads with FREE
 
+> 🎁 First 3 DMs get a free 3D visualisation of their track.
+>
 > Your music has a shape you've never seen.
 >
-> We built a system that analyses a track — maps it to 5 neurological layers — and renders it as a 3D interactive experience. One HTML file. Opens in any browser. Yours forever.
+> A friend (Thomas) built a system that analyses a song — maps it to 5 neurological layers — and renders it as a 3D interactive experience. One HTML file. Opens in any browser. Yours forever.
 >
 > Prediction error. Pattern break. Emotional hook. Tension. Release. Each one becomes a beam of light, charging during the verse, firing at the transition.
 >
 > This isn't a visualiser. This is your song's brain scan.
 >
-> $99 per track. Live demo at https://sjgant80-hub.github.io/audiofabric/
+> Normally $99 per track. The first 3 of you who DM me a track link get yours free — I want the portfolio + your honest reaction.
 >
-> Send a track. See what your music looks like when it thinks.
+> Live demo: https://sjgant80-hub.github.io/audiofabric/
+>
+> DM me a SoundCloud / YouTube / Bandcamp link. First 3 in. Let's see what your music looks like when it thinks.
 >
 > #MusicTech #AudioVisualisation #3DArt #MusicProduction #IndieArtist #WebGL #CreativeTech
+
+## Variants
+
+### Short · for Twitter/X
+
+> 🎁 First 3 DMs get a free 3D visualisation of their track.
+>
+> Send a song → get a 3D HTML back. 5 brain layers, 5 beams of light. Yours forever.
+>
+> Normally $99. https://sjgant80-hub.github.io/audiofabric/
+
+### Even shorter · for Threads / Bluesky
+
+> First 3 DMs · free 3D visualisation of your track · normally $99 · audiofabric.io · DM me a link
+
+### Punchier · headline-only
+
+> Your song has a shape. I'll show it to you.
+>
+> First 3 DMs free. Normally $99.
+>
+> https://sjgant80-hub.github.io/audiofabric/
 
 ## Short variant (under 280 chars · for Twitter/X)
 

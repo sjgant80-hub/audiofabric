@@ -35,6 +35,10 @@ h1.hero-title .beam { color:var(--beam); text-shadow:0 0 24px rgba(76,243,255,0.
 header.hero p.sub { font-size:clamp(16px,2vw,20px); color:var(--ink); max-width:640px; margin:0 auto 32px; line-height:1.5; }
 header.hero p.sub strong { color:var(--bright); font-weight:600; }
 .hero-cta { display:inline-flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.launch-banner { max-width:620px; margin:0 auto 28px; padding:14px 22px; background:rgba(212,168,83,0.08); border:1px solid var(--warm); border-radius:10px; font-size:14px; color:var(--bright); display:flex; align-items:center; gap:14px; text-align:left; line-height:1.5; }
+.launch-banner .banner-glyph { color:var(--warm); font-size:22px; flex-shrink:0; }
+.launch-banner strong { color:var(--warm); font-weight:700; }
+@media (max-width:600px) { .launch-banner { font-size:13px; padding:12px 16px; } }
 .btn { display:inline-block; background:var(--beam); color:#000; padding:14px 28px; border-radius:8px; font-weight:700; font-size:15px; text-decoration:none; cursor:pointer; border:none; font-family:inherit; transition:all 0.2s; letter-spacing:0.01em; }
 .btn:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(76,243,255,0.4); }
 .btn.sec { background:transparent; color:var(--beam); border:1px solid var(--beam); }
@@ -81,6 +85,9 @@ section .section-sub { text-align:center; color:var(--dim); font-size:14px; font
 .tier .btn { width:100%; text-align:center; }
 .tier.featured::before { content:'most popular'; position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--beam); color:#000; padding:4px 14px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; border-radius:4px; font-weight:700; }
 .tier { position:relative; }
+.launch-pill { position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--warm); color:#000; padding:4px 14px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; border-radius:4px; font-weight:700; white-space:nowrap; box-shadow:0 4px 12px rgba(212,168,83,0.4); }
+.tier-price .strike { text-decoration:line-through; opacity:0.4; font-size:0.7em; margin-right:8px; }
+.tier-price .free { color:var(--warm); }
 
 /* FORM */
 .form-wrap { max-width:580px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:34px 30px; }
@@ -157,9 +164,14 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
     <span class="glyph">◊·κ=1</span>
     <h1 class="hero-title">Your music.<br>Visualised. <span class="beam">In 3D.</span></h1>
     <p class="sub">Send us a track. We analyse it across <strong>5 neurological layers</strong> — prediction error, pattern break, emotional hook, tension, release — and ship you back a <strong>single HTML file</strong> with 3D beams synced to your music. Opens in any browser. Yours forever.</p>
+    <div class="launch-banner">
+      <span class="banner-glyph">◊</span>
+      <span><strong>LinkedIn launch</strong> · first <strong>3 DMs</strong> get a free track visualisation · normally $99 · zero strings · I want the portfolio</span>
+    </div>
     <div class="hero-cta">
+      <a class="btn warm" href="https://www.linkedin.com/in/sjgant" target="_blank" rel="noopener">◊ DM me on LinkedIn · free</a>
       <a class="btn" href="#order">⬡ Visualise My Track</a>
-      <a class="btn sec" href="#demo">▶ See the live demo</a>
+      <a class="btn sec" href="#demo">▶ Live demo</a>
     </div>
   </header>
 
@@ -229,9 +241,10 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
     <div class="pricing-grid">
 
       <div class="tier">
+        <div class="launch-pill">first 3 DMs · FREE</div>
         <div class="tier-name">SINGLE TRACK</div>
-        <div class="tier-price">$99<span class="unit">/ one song</span></div>
-        <div class="tier-tagline">One song → one 3D visualisation HTML</div>
+        <div class="tier-price"><span class="strike">$99</span> <span class="free">free</span><span class="unit">/ for the first 3</span></div>
+        <div class="tier-tagline">LinkedIn launch · DM me on LinkedIn · normally $99</div>
         <ul>
           <li>Delivered in 24 hours</li>
           <li>Unlimited revisions until you love it</li>
@@ -240,7 +253,7 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
           <li>Social media preview clips</li>
           <li>Yours forever · no subscription</li>
         </ul>
-        <a class="btn" href="#order" data-tier="single">Order one track</a>
+        <a class="btn warm" href="https://www.linkedin.com/in/sjgant" target="_blank" rel="noopener">DM me on LinkedIn</a>
       </div>
 
       <div class="tier featured">

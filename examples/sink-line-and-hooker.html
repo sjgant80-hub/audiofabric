@@ -1,86 +1,229 @@
-<!doctype html>
-<!-- ◊·κ AudioFabric · DEMO PLACEHOLDER
-     This file gets replaced with Thomas's actual 214-line AudioFabric HTML
-     for "Sink Line and Hooker" — five neural beams synced to the track.
-     For now: animated beam preview so the landing page demo is alive.
--->
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>AudioFabric · Sink Line and Hooker · placeholder</title>
-<style>
-  html, body { margin:0; padding:0; background:#040608; color:#a8b3c0; height:100%; font-family:'DM Mono',ui-monospace,monospace; overflow:hidden; }
-  canvas { display:block; width:100%; height:100%; }
-  .hint { position:fixed; bottom:14px; left:14px; font-size:10px; color:#4cf3ff; opacity:0.65; letter-spacing:0.08em; z-index:2; }
-  .title { position:fixed; top:14px; left:14px; font-size:11px; color:#4cf3ff; letter-spacing:0.16em; z-index:2; }
-</style>
-</head>
-<body>
-<div class="title">◊·κ AudioFabric · placeholder · live demo coming</div>
-<canvas id="c"></canvas>
-<div class="hint">5 neural beams · prediction · pattern · hook · tension · release</div>
-
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Sink Line & Hooker · DBZ</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>*{margin:0;padding:0;overflow:hidden}body{background:#4488cc}
+#H{position:fixed;top:6px;left:10px;color:#fff;font:7px/1.2 Consolas;z-index:9;pointer-events:none;white-space:pre;text-shadow:0 0 3px #0004}
+#L{position:fixed;bottom:30px;left:0;width:100%;text-align:center;font:16px/1.4 serif;font-style:italic;color:#fff;z-index:9;pointer-events:none;text-shadow:0 0 8px #0006;opacity:.9;transition:opacity .4s}#L.d{opacity:.15}
+#D{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;color:#fff;font:20px serif;cursor:pointer;flex-direction:column;gap:8px;background:linear-gradient(#3377bb,#55aa55)}
+#D.h{display:none}#D small{color:#fffa;font:10px Consolas;font-style:normal}
+#R{position:fixed;top:6px;left:50%;transform:translateX(-50%);color:#f44;font:10px monospace;z-index:10;pointer-events:none;display:none;animation:bl 1.5s infinite}
+@keyframes bl{50%{opacity:.15}}</style></head><body>
+<audio id="ad" crossorigin="anonymous"></audio>
+<div id="H"></div><div id="L"></div><div id="R">REC</div>
+<div id="D">SINK LINE & HOOKER<small>🔵 voice vs music 🔴 · kamehameha beam battle · click</small></div>
 <script>
-const cv = document.getElementById('c');
-const ctx = cv.getContext('2d');
-function size() { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; }
-size(); addEventListener('resize', size);
-
-const BEAMS = [
-  { name:'prediction', color:'#4cf3ff', y:0.20, charge:0, phase:0, speed:0.012 },
-  { name:'pattern',    color:'#69ddff', y:0.35, charge:0, phase:1.2, speed:0.008 },
-  { name:'hook',       color:'#d4a853', y:0.50, charge:0, phase:2.4, speed:0.014 },
-  { name:'tension',    color:'#ff5b3d', y:0.65, charge:0, phase:3.6, speed:0.010 },
-  { name:'release',    color:'#4ecba0', y:0.80, charge:0, phase:4.8, speed:0.016 }
-];
-
-let t = 0;
-function draw() {
-  ctx.fillStyle = 'rgba(4,6,8,0.18)';
-  ctx.fillRect(0, 0, cv.width, cv.height);
-  const W = cv.width, H = cv.height;
-  t += 0.012;
-  // ambient stars
-  for (let i = 0; i < 40; i++) {
-    const x = (Math.sin(i * 12.9 + t * 0.3) * 0.5 + 0.5) * W;
-    const y = (Math.cos(i * 7.3 + t * 0.4) * 0.5 + 0.5) * H;
-    const a = (Math.sin(t * 2 + i) * 0.5 + 0.5) * 0.25;
-    ctx.fillStyle = 'rgba(76,243,255,' + a + ')';
-    ctx.fillRect(x, y, 1.5 * devicePixelRatio, 1.5 * devicePixelRatio);
-  }
-  // beams
-  BEAMS.forEach((b, i) => {
-    // simulated "song" — gradually rising tension with periodic releases
-    const wave = Math.sin(t + b.phase) * 0.5 + 0.5;
-    const isRelease = (Math.floor(t / 4) + i) % 3 === 0 && wave > 0.85;
-    b.charge += (isRelease ? -0.05 : b.speed);
-    if (b.charge < 0) b.charge = 0;
-    if (b.charge > 1) b.charge = 1;
-    const y = b.y * H;
-    const cx = W * 0.5;
-    const len = 0.4 * W * (0.3 + b.charge);
-    // beam glow
-    const grad = ctx.createLinearGradient(cx - len, y, cx + len, y);
-    grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(0.5, b.color);
-    grad.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(cx - len, y - 2 * devicePixelRatio, len * 2, 4 * devicePixelRatio);
-    // halo
-    ctx.shadowBlur = 30 * devicePixelRatio * b.charge;
-    ctx.shadowColor = b.color;
-    ctx.fillRect(cx - len, y - 2 * devicePixelRatio, len * 2, 4 * devicePixelRatio);
-    ctx.shadowBlur = 0;
-    // label
-    ctx.fillStyle = b.color;
-    ctx.font = (10 * devicePixelRatio) + "px 'DM Mono',monospace";
-    ctx.globalAlpha = 0.6;
-    ctx.fillText(b.name.toUpperCase(), 20 * devicePixelRatio, y - 8 * devicePixelRatio);
-    ctx.globalAlpha = 1;
-  });
-  requestAnimationFrame(draw);
-}
-draw();
-</script>
-</body>
-</html>
+const $=id=>document.getElementById(id),T=Math.PI*2,F=1.618,P=[2,3,5,7,11,13,17]
+const Me=(g,m)=>new THREE.Mesh(g,m),Cl=x=>new THREE.Color(x),PM=o=>new THREE.MeshPhongMaterial(o),BM=o=>new THREE.MeshBasicMaterial(o)
+const Rn=Math.random,FL=Math.floor,MN=Math.min,MX=Math.max
+let sc,cm,RE,ax,an,fd,src,aOn=0,t0=0,rc=null,rch=[]
+const ad=$('ad'),S={e:0,bt:0,lB:0,voice:0,music:0,clash:.5,shk:0}
+function iA(){if(!ax)ax=new(AudioContext||webkitAudioContext)();if(ax.state==='suspended')ax.resume()
+if(!an){an=ax.createAnalyser();an.fftSize=2048;an.smoothingTimeConstant=.78;fd=new Uint8Array(1024)}}
+function wr(){if(!src){src=ax.createMediaElementSource(ad);src.connect(an);an.connect(ax.destination)}
+t0=ax.currentTime;aOn=1;$('D').classList.add('h');ad.onended=()=>{if(rc&&rc.state==='recording')rc.stop()};setTimeout(()=>{if(!rc)tR()},500)}
+$('D').onclick=()=>{if(aOn)return;iA();ad.src='sink-line-and-hooker.mp3'
+ad.oncanplaythrough=()=>{wr();ad.play().catch(()=>{})};ad.onerror=()=>{iA()
+;[110,165,220,330].forEach((f,i)=>{const o=ax.createOscillator(),g=ax.createGain();o.type='sine';o.frequency.value=f;g.gain.value=.007/(i+1);o.connect(g);g.connect(an);o.start()})
+an.connect(ax.destination);t0=ax.currentTime;aOn=1;$('D').classList.add('h');setTimeout(()=>{if(!rc)tR()},500)}
+ad.load();setTimeout(()=>{if(!aOn)ad.onerror()},3000)}
+document.addEventListener('dragover',e=>e.preventDefault())
+document.addEventListener('drop',e=>{e.preventDefault();const f=e.dataTransfer.files[0];if(!f)return;iA();ad.src=URL.createObjectURL(f);ad.oncanplaythrough=()=>{wr();ad.play().catch(()=>{})};ad.load()})
+function ga(){if(!an||!fd)return{b:0,m:0,h:0,p:0};an.getByteFrequencyData(fd)
+let b=0,m=0,h=0,p=0;const n=fd.length,lo=n*.12|0,mi=n*.4|0
+for(let i=0;i<n;i++){const v=fd[i]/255;if(v>p)p=v;if(i<lo)b+=v;else if(i<mi)m+=v;else h+=v}
+return{b:b/MX(1,lo),m:m/MX(1,mi-lo),h:h/MX(1,n-mi),p}}
+function tR(){if(rc&&rc.state==='recording'){rc.stop();rc=null;$('R').style.display='none';return}
+try{const st=RE.domElement.captureStream(60)
+if(ax){const d=ax.createMediaStreamDestination();an.connect(d);d.stream.getAudioTracks().forEach(t=>st.addTrack(t))}
+const mi=MediaRecorder.isTypeSupported('video/webm;codecs=h264,opus')?'video/webm;codecs=h264,opus':'video/webm'
+rch=[];rc=new MediaRecorder(st,{mimeType:mi,videoBitsPerSecond:8e6})
+rc.ondataavailable=e=>{if(e.data.size>0)rch.push(e.data)}
+rc.onstop=()=>{const bl=new Blob(rch,{type:mi}),a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='sinkline-'+Date.now()+'.webm';a.click();rc=null;$('R').style.display='none'}
+rc.start(250);$('R').style.display='block'}catch(e){}}
+const LY=[[0,'(thumb swipe)'],[12,"You stopped · you don't know why yet"],[16,'Technique 1: PREDICTION ERROR'],
+[20,'The brain expects a pattern · break it'],[28,'"I made six figures" — "all of them were zero"'],
+[36,'The algorithm reads the PAUSE'],[44,'First line: make them guess wrong'],
+[52,'The distance between those two · is the most profitable word'],
+[64,'Technique 2: LIE THEN CONFESS'],[72,'The confusion IS the trust'],
+[84,'The transparency IS the hook'],[92,'The speed of the confession'],
+[104,'Technique 3: never finish the'],[108,'See what I did there'],
+[120,'"She knows something I don\'t" · full stop'],[132,'Open loops like open tabs in Chrome'],
+[140,'Technique 4: funny then real'],[148,'"I write LinkedIn posts in my underwear"'],
+[156,'"Because 3 AM is the only hour my brain stops asking why"'],
+[168,'The laugh opened the door · the real walked through'],
+[176,'Technique 5: build a ghost'],[184,'She needs a PATTERN'],
+[200,"That's architecture built on empathy"],[208,'The algorithm is a BRAIN'],
+[216,'STOP · TRUST · STAY · FEEL · THINK'],[232,'Five floors of the truck'],
+[240,'The algorithm is NEUROSCIENCE'],[252,'(STOP)'],[260,'(DOOR SLAMS SHUT)'],[268,'']]
+function gL(s){let b=LY[0];for(const l of LY)if(s>=l[0])b=l;return{t:b[1],f:s-b[0]<2.5}}
+const CC={th:0,ph:.3,r:20,drag:0,li:0}
+const beamVS=`varying vec2 vUv;uniform float uT,uLen,uWid;
+void main(){vUv=uv;vec3 p=position;p.x*=max(.01,uLen);
+float taper=smoothstep(0.,.05,abs(p.x)/max(.1,uLen))*smoothstep(1.,.9,abs(p.x)/max(.1,uLen));
+p.y*=uWid*taper;p.z*=uWid*taper;
+p.y+=sin(p.x*2.+uT*12.)*.15*uWid*taper;p.z+=cos(p.x*2.5+uT*10.)*.1*uWid*taper;
+gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}`
+const beamFS=`varying vec2 vUv;uniform float uT,uPow,uHue;
+vec3 hs(float h,float s,float l){vec3 k=clamp(abs(mod(h*6.+vec3(0,4,2),6.)-3.)-1.,0.,1.);return l+s*(k-.5)*min(l,1.-l)*2.;}
+void main(){float core=1.-length(vec2(0,vUv.y-.5))*2.;float wave=sin(vUv.x*25.+uT*15.)*.5+.5;
+vec3 c=hs(uHue,.6,.15+core*.25)+vec3(.3,.35,.4)*pow(max(0.,core),4.)+hs(uHue+.05,.4,.04)*wave;
+float a=uPow*max(0.,core)*(.4+wave*.1);gl_FragColor=vec4(c,clamp(a,0.,.75));}`
+function mkBeam(hue){const g=new THREE.CylinderGeometry(1,1,1,8,48,true);g.rotateZ(-Math.PI/2)
+return Me(g,new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,
+uniforms:{uT:{value:0},uPow:{value:0},uLen:{value:0},uWid:{value:.2},uHue:{value:hue}}
+,vertexShader:beamVS,fragmentShader:beamFS}))}
+function mkChargeOrb(hue,color){const g=new THREE.Group()
+const core=Me(new THREE.IcosahedronGeometry(.5,2),new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,
+uniforms:{uT:{value:0},uChg:{value:0},uHue:{value:hue}},
+vertexShader:'varying vec3 vN;void main(){vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+fragmentShader:`varying vec3 vN;uniform float uT,uChg,uHue;
+vec3 hs(float h,float s,float l){vec3 k=clamp(abs(mod(h*6.+vec3(0,4,2),6.)-3.)-1.,0.,1.);return l+s*(k-.5)*min(l,1.-l)*2.;}
+void main(){float rim=1.-abs(dot(vN,vec3(0,0,1)));float pulse=sin(uT*10.)*.5+.5;
+vec3 c=hs(uHue,.7,.12+uChg*.25)+hs(uHue,.5,.06)*pow(rim,2.)+vec3(.3)*pow(rim,4.)*uChg+hs(.08,.4,.04)*pulse*uChg;
+gl_FragColor=vec4(c,uChg*(.5+rim*.3));}`}))
+g.add(core)
+for(let i=0;i<3;i++){const r=Me(new THREE.TorusGeometry(.6+i*.15,.02,6,24),BM({color,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false}))
+r.rotation.set(i*1.2,i*.8,0);g.add(r)}
+g.userData={core};return g}
+function init(){
+sc=new THREE.Scene()
+cm=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,500)
+RE=new THREE.WebGLRenderer({antialias:true});RE.setSize(innerWidth,innerHeight)
+RE.setPixelRatio(MN(devicePixelRatio,2));RE.toneMappingExposure=1.3
+document.body.appendChild(RE.domElement)
+sc.add(new THREE.HemisphereLight(0x88bbff,0x446622,.8))
+const sun=new THREE.DirectionalLight(0xffeedd,.6);sun.position.set(5,15,8);sc.add(sun)
+sc.add(Me(new THREE.SphereGeometry(150,32,24),new THREE.ShaderMaterial({side:THREE.BackSide,
+vertexShader:'varying vec3 vP;void main(){vP=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+fragmentShader:`varying vec3 vP;void main(){float h=normalize(vP).y;
+vec3 sky=mix(vec3(.85,.92,.98),vec3(.25,.45,.75),clamp(h*1.5,0.,1.));
+sky=mix(vec3(.95,.95,.9),sky,clamp(h*3.+.2,0.,1.));
+gl_FragColor=vec4(sky,1.);}`})))
+const ground=Me(new THREE.PlaneGeometry(200,200),PM({color:0x55aa44,emissive:0x224411}))
+ground.rotation.x=-Math.PI/2;ground.position.y=-.1;sc.add(ground)
+for(let i=0;i<12;i++){const sz=.5+Rn()*1.5
+const rock=Me(new THREE.DodecahedronGeometry(sz,0),PM({color:Cl(0).setHSL(.08,.3,.25+Rn()*.1),flatShading:true}))
+rock.position.set((Rn()-.5)*40,sz*.4,(Rn()-.5)*30);rock.rotation.set(Rn(),Rn(),Rn());sc.add(rock)}
+const voiceG=new THREE.Group(),musicG=new THREE.Group()
+voiceG.position.set(-12,2,0);musicG.position.set(12,2,0)
+const mkFighter=(em,hue,flip)=>{const g=new THREE.Group()
+const body=Me(new THREE.CylinderGeometry(.3,.25,1.5,6),PM({color:Cl(0).setHSL(hue,.5,.4),emissive:Cl(0).setHSL(hue,.3,.08)}))
+g.add(body)
+const head=Me(new THREE.SphereGeometry(.35,8,6),PM({color:Cl(0).setHSL(hue,.4,.5),emissive:Cl(0).setHSL(hue,.2,.1)}))
+head.position.y=1;g.add(head)
+const cv=document.createElement('canvas');cv.width=cv.height=64;const cx=cv.getContext('2d')
+cx.font='48px serif';cx.textAlign='center';cx.fillText(em,32,50)
+const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true}))
+sp.position.y=1.8;sp.scale.set(1.2,1.2,1);g.add(sp)
+const arm1=Me(new THREE.CylinderGeometry(.06,.06,.8,4),PM({color:Cl(0).setHSL(hue,.4,.4)}))
+arm1.position.set(flip*.5,.3,0);arm1.rotation.z=flip*-1.2;g.add(arm1)
+const arm2=Me(new THREE.CylinderGeometry(.06,.06,.8,4),PM({color:Cl(0).setHSL(hue,.4,.4)}))
+arm2.position.set(flip*.5,.1,0);arm2.rotation.z=flip*-1;g.add(arm2)
+return g}
+voiceG.add(mkFighter('🗣',.6,1));musicG.add(mkFighter('🎸',.0,-1))
+sc.add(voiceG);sc.add(musicG)
+const vCharge=mkChargeOrb(.6,0x4488ff);vCharge.position.set(2,2,0);voiceG.add(vCharge)
+const mCharge=mkChargeOrb(.0,0xff4444);mCharge.position.set(-2,2,0);musicG.add(mCharge)
+const vBeam=mkBeam(.6);vBeam.position.set(2,2,0);voiceG.add(vBeam)
+const mBeam=mkBeam(.0);mBeam.position.set(-2,2,0);musicG.add(mBeam)
+window._f={vG:voiceG,mG:musicG,vC:vCharge,mC:mCharge,vB:vBeam,mB:mBeam}
+const clashOrb=Me(new THREE.SphereGeometry(.3,12,8),BM({color:0xffffff,transparent:true,opacity:0,blending:THREE.AdditiveBlending}))
+clashOrb.position.set(0,4,0);sc.add(clashOrb)
+const clashRing=Me(new THREE.TorusGeometry(1,.05,6,24),BM({color:0xffffff,transparent:true,opacity:0,blending:THREE.AdditiveBlending}))
+clashRing.position.set(0,4,0);sc.add(clashRing)
+window._clash={orb:clashOrb,ring:clashRing}
+const spkN=800,spkGeo=new THREE.BufferGeometry(),spkP=new Float32Array(spkN*3),spkC=new Float32Array(spkN*3),spkS=new Float32Array(spkN)
+spkGeo.setAttribute('position',new THREE.Float32BufferAttribute(spkP,3))
+spkGeo.setAttribute('color',new THREE.Float32BufferAttribute(spkC,3))
+spkGeo.setAttribute('size',new THREE.Float32BufferAttribute(spkS,1))
+sc.add(new THREE.Points(spkGeo,new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,vertexColors:true,
+vertexShader:'attribute float size;varying vec3 vC;void main(){vC=color;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);gl_PointSize=size*(80./gl_Position.w);}',
+fragmentShader:'varying vec3 vC;void main(){float d=length(gl_PointCoord-.5)*2.;if(d>1.)discard;gl_FragColor=vec4(vC,(1.-d*d)*.6);}'})))
+window._spk={geo:spkGeo,p:spkP,c:spkC,s:spkS,idx:0}
+const chgN=500,chgGeo=new THREE.BufferGeometry(),chgP=new Float32Array(chgN*3),chgC=new Float32Array(chgN*3),chgS=new Float32Array(chgN)
+chgGeo.setAttribute('position',new THREE.Float32BufferAttribute(chgP,3))
+chgGeo.setAttribute('color',new THREE.Float32BufferAttribute(chgC,3))
+chgGeo.setAttribute('size',new THREE.Float32BufferAttribute(chgS,1))
+sc.add(new THREE.Points(chgGeo,new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,vertexColors:true,
+vertexShader:'attribute float size;varying vec3 vC;void main(){vC=color;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);gl_PointSize=size*(60./gl_Position.w);}',
+fragmentShader:'varying vec3 vC;void main(){float d=length(gl_PointCoord-.5)*2.;if(d>1.)discard;gl_FragColor=vec4(vC,(1.-d*d)*.5);}'})))
+window._chg={geo:chgGeo,p:chgP,c:chgC,s:chgS,pts:[]}
+const dustN=200,dustGeo=new THREE.BufferGeometry(),dustP=new Float32Array(dustN*3),dustS=new Float32Array(dustN)
+for(let i=0;i<dustN;i++){dustP[i*3]=(Rn()-.5)*60;dustP[i*3+1]=Rn()*15;dustP[i*3+2]=(Rn()-.5)*40;dustS[i]=.01+Rn()*.02}
+dustGeo.setAttribute('position',new THREE.Float32BufferAttribute(dustP,3))
+dustGeo.setAttribute('size',new THREE.Float32BufferAttribute(dustS,1))
+sc.add(new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xffffff,transparent:true,opacity:.15,size:.08})))
+window._dust={geo:dustGeo,p:dustP,s:dustS}
+RE.domElement.addEventListener('mousedown',e=>{CC.drag=1;CC.px=e.clientX;CC.py=e.clientY;CC.li=Date.now()})
+addEventListener('mouseup',()=>CC.drag=0)
+addEventListener('mousemove',e=>{if(!CC.drag)return;CC.th-=(e.clientX-CC.px)*.004;CC.ph=MX(.05,MN(1.2,CC.ph-(e.clientY-CC.py)*.004));CC.px=e.clientX;CC.py=e.clientY;CC.li=Date.now()})
+RE.domElement.addEventListener('wheel',e=>{e.preventDefault();CC.r=MX(8,MN(45,CC.r+e.deltaY*.05));CC.li=Date.now()},{passive:false})
+addEventListener('keydown',e=>{if(e.key==='r')tR()})
+addEventListener('resize',()=>{cm.aspect=innerWidth/innerHeight;cm.updateProjectionMatrix();RE.setSize(innerWidth,innerHeight)})}
+function frame(){requestAnimationFrame(frame)
+const t=Date.now()*.001,a=ga(),sec=ax?(ax.currentTime-t0):0,lyr=gL(sec)
+const e=a.b+a.m+a.h+a.p;S.e+=(e-S.e)*.12
+if(a.b>.25&&a.b>S.lB+.07)S.bt=1;S.lB=a.b;S.bt*=.82
+S.voice+=(MN(1,(a.m+a.h)*1.2)-S.voice)*.15
+S.music+=(MN(1,(a.b+a.m*.3)*1.5)-S.music)*.15
+const total=S.voice+S.music+.01;S.clash+=(S.voice/total-S.clash)*.06
+const vPow=S.voice,mPow=S.music,f=window._f
+const clashX=-12+S.clash*24,clashY=2+Math.sin(t*3)*.3
+f.vC.userData.core.material.uniforms.uT.value=t;f.vC.userData.core.material.uniforms.uChg.value=vPow
+f.vC.scale.setScalar(.5+vPow*1.5+S.bt*.3)
+f.vC.children.forEach((ch,i)=>{if(i>0)ch.material.opacity=vPow*.12;ch.rotation.x+=.02+vPow*.03;ch.rotation.y+=.03})
+f.mC.userData.core.material.uniforms.uT.value=t;f.mC.userData.core.material.uniforms.uChg.value=mPow
+f.mC.scale.setScalar(.5+mPow*1.5+S.bt*.3)
+f.mC.children.forEach((ch,i)=>{if(i>0)ch.material.opacity=mPow*.12;ch.rotation.x+=.02+mPow*.03;ch.rotation.y+=.03})
+const vLen=MX(0,(clashX-(-10))*.5),mLen=MX(0,(10-clashX)*.5)
+const vU=f.vB.material.uniforms,mU=f.mB.material.uniforms
+vU.uT.value=t;vU.uPow.value=vPow;vU.uLen.value=vLen;vU.uWid.value=.2+vPow*.6+S.bt*.15
+mU.uT.value=t;mU.uPow.value=mPow;mU.uLen.value=mLen;mU.uWid.value=.2+mPow*.6+S.bt*.15
+f.vB.visible=vPow>.05;f.mB.visible=mPow>.05
+f.vG.position.y=2+Math.sin(t*.8)*.3+vPow*.5
+f.mG.position.y=2+Math.cos(t*.7)*.3+mPow*.5
+S.shk+=(S.bt*3+S.e*.5-S.shk)*.15
+const cl=window._clash
+cl.orb.position.set(clashX,clashY,0);cl.ring.position.set(clashX,clashY,0)
+cl.orb.material.opacity=MN(.6,(vPow+mPow)*.25+S.bt*.15)
+cl.orb.scale.setScalar(.3+S.bt*1.2+S.e*.3)
+cl.ring.material.opacity=S.bt*.2;cl.ring.scale.setScalar(1+S.bt*2)
+cl.ring.rotation.z+=.05;cl.ring.rotation.x=Math.sin(t)*1
+cl.orb.material.color.setHSL(S.clash>.55?.6:.0,.7,.5)
+const spk=window._spk
+if(S.bt>.3){for(let i=0;i<FL(5+S.bt*15);i++){const idx=(spk.idx++)%800,a2=Rn()*T,spd=1+Rn()*4
+spk.p[idx*3]=clashX+Math.cos(a2)*spd;spk.p[idx*3+1]=clashY+Math.sin(a2)*spd;spk.p[idx*3+2]=(Rn()-.5)*3
+const h=S.clash>.5?.6:.0;const c=Cl(0).setHSL(h+Rn()*.1,.8,.5)
+spk.c[idx*3]=c.r;spk.c[idx*3+1]=c.g;spk.c[idx*3+2]=c.b;spk.s[idx]=.04+Rn()*.06}}
+for(let i=0;i<800;i++){spk.s[i]*=.96;spk.p[i*3]+=(Rn()-.5)*.1;spk.p[i*3+1]+=(Rn()-.5)*.1}
+spk.geo.attributes.position.needsUpdate=true;spk.geo.attributes.color.needsUpdate=true;spk.geo.attributes.size.needsUpdate=true
+const chg=window._chg
+if(aOn&&S.e>.1){for(let side=0;side<2;side++){const pow=side?mPow:vPow,ox=side?10:-10
+if(Rn()<pow*.4+.05){const ang=Rn()*T,dist=2+Rn()*4
+chg.pts.push({x:ox+Math.cos(ang)*dist,y:2+Math.sin(ang)*dist+Rn()*2,z:(Rn()-.5)*3,
+tx:ox+(side?-2:2),ty:2,tz:0,sp:.05+Rn()*.08,life:1,hue:side?0:.6})}}}
+chg.pts=chg.pts.filter((p,i)=>{if(i>=500)return false;p.x+=(p.tx-p.x)*p.sp;p.y+=(p.ty-p.y)*p.sp;p.z+=(p.tz-p.z)*p.sp;p.life-=.015
+if(Math.hypot(p.x-p.tx,p.y-p.ty)<.5)p.life-=.1
+chg.p[i*3]=p.x;chg.p[i*3+1]=p.y;chg.p[i*3+2]=p.z;chg.s[i]=MX(0,p.life*.04)
+const c=Cl(0).setHSL(p.hue,.7,.4+p.life*.2);chg.c[i*3]=c.r;chg.c[i*3+1]=c.g;chg.c[i*3+2]=c.b
+return p.life>0})
+for(let i=chg.pts.length;i<500;i++)chg.s[i]=0
+chg.geo.attributes.position.needsUpdate=true;chg.geo.attributes.color.needsUpdate=true;chg.geo.attributes.size.needsUpdate=true
+const dust=window._dust;for(let i=0;i<200;i++){
+dust.p[i*3+1]+=Math.sin(t*.5+i)*S.e*.003;dust.s[i]=.01+S.e*.01+S.bt*.005}
+dust.geo.attributes.position.needsUpdate=true;dust.geo.attributes.size.needsUpdate=true
+RE.toneMappingExposure=1.2+S.e*.1+S.bt*.05
+if(Date.now()-CC.li>3500)CC.th+=.0004
+if(!CC.drag)CC.r+=(20-S.e*3-CC.r)*.004
+const shk=S.shk*.08
+cm.position.set(CC.r*Math.sin(CC.ph)*Math.cos(CC.th)+Math.sin(t*18)*shk,
+CC.r*Math.cos(CC.ph)+4+Math.cos(t*14)*shk,
+CC.r*Math.sin(CC.ph)*Math.sin(CC.th)+Math.sin(t*16)*shk)
+cm.lookAt(clashX*.3,3,0)
+$('L').textContent=lyr.t;$('L').className=lyr.f?'':'d'
+const mn=FL(sec/60),ss=FL(sec%60)
+const vBar='🔵'.repeat(FL(S.voice*8)),mBar='🔴'.repeat(FL(S.music*8))
+const winner=S.clash>.55?'🗣 VOICE':'🎸 MUSIC',clashPct=FL(S.clash*100)
+$('H').innerHTML=`${(mn<10?'0':'')+mn}:${(ss<10?'0':'')+ss} SINK LINE & HOOKER\n${vBar}⚡${mBar}\n🗣voice=${S.voice.toFixed(2)} clash=${clashPct}% 🎸music=${S.music.toFixed(2)}\n${winner} WINNING · E=${S.e.toFixed(2)}${rc?' REC':''}`
+RE.render(sc,cm)}
+init();frame()
+</script></body></html>

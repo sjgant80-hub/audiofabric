@@ -1,24 +1,126 @@
 # LinkedIn launch post · ready to paste
 
-## ◊ LAUNCH OFFER · primary post · leads with FREE
+## ◊ PRIMARY POST · Thomas front and centre
 
-> 🎁 First 3 DMs get a free 3D visualisation of their track.
+> My good friend Thomas Frumkin built something remarkable.
 >
-> Your music has a shape you've never seen.
+> AudioFabric — send him a track, get back a 3D HTML file with your song's neurological signature rendered as kamehameha beams of light.
 >
-> A friend (Thomas) built a system that analyses a song — maps it to 5 neurological layers — and renders it as a 3D interactive experience. One HTML file. Opens in any browser. Yours forever.
+> Five layers: prediction error · pattern break · emotional hook · tension · release. Each one becomes a beam, charging during the verse, firing at the transition. It's not a visualiser. It's your song's brain scan.
 >
-> Prediction error. Pattern break. Emotional hook. Tension. Release. Each one becomes a beam of light, charging during the verse, firing at the transition.
->
-> This isn't a visualiser. This is your song's brain scan.
->
-> Normally $99 per track. The first 3 of you who DM me a track link get yours free — I want the portfolio + your honest reaction.
+> One HTML file. Opens in any browser. Embed anywhere. Yours forever. No subscription, no platform, no DRM.
 >
 > Live demo: https://sjgant80-hub.github.io/audiofabric/
 >
-> DM me a SoundCloud / YouTube / Bandcamp link. First 3 in. Let's see what your music looks like when it thinks.
+> 🎁 Launch offer — first 3 DMs get a free visualisation. Normally $99. I want the portfolio + your honest reaction. Zero strings.
+>
+> DM me a SoundCloud / YouTube / Bandcamp link. First 3 in.
+>
+> Thomas's LinkedIn — https://www.linkedin.com/in/thomas-frumkin-a7116741/ — genuinely worth a follow if you care about audio, architecture, or what happens when a builder gets unreasonable about both.
+>
+> Let's see what your music looks like when it thinks.
 >
 > #MusicTech #AudioVisualisation #3DArt #MusicProduction #IndieArtist #WebGL #CreativeTech
+
+## Variants
+
+### Even more Thomas-forward · for when you want to lead with him
+
+> Thomas Frumkin built a thing.
+>
+> Send him a track. He analyses it across 5 neurological layers — prediction error, pattern break, emotional hook, tension, release — and ships you back a single HTML file with 3D beams synced to your music.
+>
+> One file. Opens in any browser. Yours forever.
+>
+> I'm handling the sales side because his work deserves to be in front of more people. First 3 DMs get a free visualisation (normally $99).
+>
+> Demo: https://sjgant80-hub.github.io/audiofabric/
+> Thomas: https://www.linkedin.com/in/thomas-frumkin-a7116741/
+>
+> DM me a track link.
+>
+> #MusicTech #AudioVisualisation #IndieArtist #CreativeTech
+
+### Short · for Twitter / X / Threads
+
+> My friend Thomas built AudioFabric — 3D visualisations of songs based on 5 brain layers.
+>
+> Send a track → get a 3D HTML back.
+>
+> First 3 DMs free (normally $99). https://sjgant80-hub.github.io/audiofabric/
+
+### Headline-only · for stories, Bluesky, sidebars
+
+> My friend built AudioFabric. First 3 DMs get a free 3D visualisation of their track.
+>
+> https://sjgant80-hub.github.io/audiofabric/
+
+## Reddit · r/MusicProduction · r/WeAreTheMusicMakers
+
+**Title:** "My friend built a system that turns songs into 3D HTML files based on 5 neurological layers — first 3 DMs free"
+
+> A friend of mine (Thomas Frumkin · audio engineer + architect) built something called AudioFabric. It analyses a track across 5 brain layers — prediction error, pattern break, emotional hook, tension, release — and renders it as a 3D scene where each layer becomes a beam of light, charging during the verse, firing at the transition.
+>
+> One HTML file. No subscription, no platform, no DRM. Opens in any browser. Embed anywhere.
+>
+> I'm handling the sales side. We're testing demand · first 3 DMs get a free visualisation (normally $99) — I want the portfolio + your honest reaction.
+>
+> Live demo (with one of his own tracks playing): https://sjgant80-hub.github.io/audiofabric/
+>
+> What genres / songs would you want to see this work on?
+
+## Product Hunt copy
+
+**Tagline:** Your music. Visualised. In 3D.
+
+**Description:** Send a track. AudioFabric (built by Thomas Frumkin) maps it to 5 neurological response layers and renders it as a 3D scene with one HTML file. Yours forever. $99 per song. First 3 launch DMs free.
+
+**Topics:** Music · Design Tools · WebGL · 3D · AI
+
+## Fiverr gig listing
+
+**Title:** I will create a stunning 3D HTML visualisation of your song
+
+**Description:**
+
+Your song has a shape. We'll show it to you.
+
+Built by Thomas Frumkin (architect of AudioFabric) and delivered by Simon Gant. We use the AudioFabric framework + AI track analysis to map your music across 5 neurological response layers — prediction error, pattern break, emotional hook, tension, release. Each one becomes a beam of light in a 3D scene, synced to your audio.
+
+The deliverable is a single HTML file. ~250 lines. Opens in any browser. Embed it on your website, label page, Bandcamp, NFT marketplace — anywhere. It's yours forever, no subscription, no platform lock-in.
+
+**Basic ($99):** One song, 3D HTML, 24 hour turnaround, unlimited revisions
+**Standard ($499):** Album pack (up to 8 tracks) with consistent visual theme
+**Premium ($999):** Bespoke colour palette + custom beam shapes + branded for your artist/label identity + NFT-ready
+
+Direct collaboration with both Thomas and Simon · no middleman.
+
+Live demos: https://sjgant80-hub.github.io/audiofabric/
+Thomas: https://www.linkedin.com/in/thomas-frumkin-a7116741/
+
+## Email reply template (when a DM lands)
+
+```
+Subject: ◊ AudioFabric · your visualisation is on the way
+
+Hi [Name],
+
+Good to meet. Got your track — [link].
+
+Thomas will analyse it across the 5 layers
+(prediction · pattern · hook · tension · release)
+and ship me the HTML in the next 24 hours.
+
+You'll get a single .html file. Double-click to open in any browser.
+Embed code + social preview clips included.
+
+Any colour or mood notes you want me to pass to him? Otherwise
+he'll pick based on what the song's signature wants.
+
+Simon (with Thomas behind the scenes)
+◊·κ=1
+```
+
 
 ## Variants
 

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AudioFabric · Your music. Visualised. In 3D.</title>
-<meta name="description" content="Send a track. Get an interactive 3D visualisation back. One HTML file. Yours forever. $99 per song.">
+<meta name="description" content="Send a track. Get an interactive 3D visualisation back. One HTML file. Yours forever.">
 <meta property="og:title" content="AudioFabric · Your music. Visualised. In 3D.">
-<meta property="og:description" content="Your song's brain scan as a 3D HTML file. $99/track. AI-analysed across 5 neurological layers. Sovereign · single-file · yours forever.">
+<meta property="og:description" content="Your song's brain scan as a 3D HTML file. AI-analysed across 5 neurological layers. Sovereign · single-file · yours forever.">
 <meta property="og:image" content="https://sjgant80-hub.github.io/audiofabric/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -177,7 +177,7 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
     <p class="sub">Send us a track. We analyse it across <strong>5 neurological layers</strong> — prediction error, pattern break, emotional hook, tension, release — and ship you back a <strong>single HTML file</strong> with 3D beams synced to your music. Opens in any browser. Yours forever.</p>
     <div class="launch-banner">
       <span class="banner-glyph">◊</span>
-      <span><strong>LinkedIn launch</strong> · first <strong>3 DMs</strong> get a free track visualisation · normally $99 · zero strings · I want the portfolio</span>
+      <span><strong>LinkedIn launch</strong> · first <strong>3 DMs</strong> get a free track visualisation · zero strings · I want the portfolio</span>
     </div>
     <div class="hero-cta">
       <a class="btn warm" href="https://www.linkedin.com/in/simon-gant-295b56180/" target="_blank" rel="noopener">◊ DM me on LinkedIn · free</a>
@@ -245,17 +245,17 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
     </div>
   </section>
 
-  <!-- PRICING -->
+  <!-- PACKAGES -->
   <section id="pricing">
-    <h2 class="section-title">Pricing</h2>
-    <div class="section-sub">sovereign forever · one-time price · no subscriptions</div>
+    <h2 class="section-title">Packages</h2>
+    <div class="section-sub">sovereign forever · own it · no subscriptions</div>
     <div class="pricing-grid">
 
       <div class="tier">
         <div class="launch-pill">first 3 DMs · FREE</div>
         <div class="tier-name">SINGLE TRACK</div>
-        <div class="tier-price"><span class="strike">$99</span> <span class="free">free</span><span class="unit">/ first 3 DMs</span></div>
-        <div class="tier-tagline">DM me on LinkedIn · or pay direct after delivery</div>
+        <div class="tier-price"><span class="free">Free</span><span class="unit">/ first 3 launch DMs</span></div>
+        <div class="tier-tagline">DM me on LinkedIn · or send your track below</div>
         <ul>
           <li>Delivered in 24 hours</li>
           <li>Unlimited revisions until you love it</li>
@@ -269,7 +269,7 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
 
       <div class="tier featured">
         <div class="tier-name">ALBUM PACK</div>
-        <div class="tier-price">$499<span class="unit">/ up to 8 tracks</span></div>
+        <div class="tier-price" style="font-size:26px;line-height:1.2">Full album<span class="unit">up to 8 tracks</span></div>
         <div class="tier-tagline">Full album visualised · consistent theme</div>
         <ul>
           <li>Up to 8 tracks · same visual identity</li>
@@ -278,14 +278,14 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
           <li>Unlimited revisions</li>
           <li>Embed codes for all tracks</li>
           <li>Social media clips for each</li>
-          <li>Save $293 vs single-track pricing</li>
+          <li>Best value for a full release</li>
         </ul>
-        <a class="btn" href="#order" data-tier="album">Order album pack</a>
+        <a class="btn" href="#order" data-tier="album">Send your album</a>
       </div>
 
       <div class="tier">
         <div class="tier-name">CUSTOM</div>
-        <div class="tier-price">$999<span class="unit">+ / bespoke</span></div>
+        <div class="tier-price" style="font-size:26px;line-height:1.2">Bespoke<span class="unit">scoped to you</span></div>
         <div class="tier-tagline">Bespoke palette · branded for your identity</div>
         <ul>
           <li>Custom colour palette to your brand</li>
@@ -344,9 +344,9 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
         <div class="form-row">
           <label for="o-tier">Tier</label>
           <select id="o-tier">
-            <option value="single">Single track · $99</option>
-            <option value="album">Album pack · $499 (up to 8 tracks)</option>
-            <option value="custom">Custom · $999+</option>
+            <option value="single">Single track</option>
+            <option value="album">Album pack (up to 8 tracks)</option>
+            <option value="custom">Custom</option>
           </select>
         </div>
         <div class="form-row">
@@ -382,7 +382,7 @@ footer .glyph-f { color:var(--beam); margin:0 10px; opacity:0.6; }
         <div class="placeholder"><span>◊ example 02 · coming soon</span></div>
         <div class="meta">
           <div class="title">Yours could be here</div>
-          <div class="artist">$99 · 24 hour turnaround</div>
+          <div class="artist">24 hour turnaround</div>
         </div>
       </div>
       <div class="gallery-item">
@@ -451,7 +451,7 @@ document.getElementById('orderForm').addEventListener('submit', function(e){
   var tier = document.getElementById('o-tier').value;
   var link = document.getElementById('o-link').value.trim();
   var notes = document.getElementById('o-notes').value.trim();
-  var tierLabel = { single:'Single track · $99', album:'Album pack · $499', custom:'Custom · $999+' }[tier] || tier;
+  var tierLabel = { single:'Single track', album:'Album pack', custom:'Custom' }[tier] || tier;
   var subject = encodeURIComponent('AudioFabric order · ' + tierLabel + ' · ' + name);
   var body = encodeURIComponent(
     'AudioFabric · new order\n\n' +
@@ -512,7 +512,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
   });
 });
 
-console.log('%c◊·κ AudioFabric', 'color:#4cf3ff;font-weight:bold;font-size:14px', 'Your music. Visualised. In 3D. · $99 per track · sovereign single-file');
+console.log('%c◊·κ AudioFabric', 'color:#4cf3ff;font-weight:bold;font-size:14px', 'Your music. Visualised. In 3D. · sovereign single-file');
 </script>
 
 </body>
